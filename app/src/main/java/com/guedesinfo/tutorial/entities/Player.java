@@ -81,28 +81,30 @@ public class Player implements GameObject{
     private void collectPowerUp(){
         for( int i = 0; i < GamePanel.powerUp.size(); i++){
             PowerUp pu = GamePanel.powerUp.get(i);
-            double px = pu.getX();
-            double py = pu.getY();
-            double pr = pu.getR();
+            if(pu instanceof PowerUp){
+                double px = pu.getX();
+                double py = pu.getY();
+                double pr = pu.getR();
 
-            double distX = px - x;
-            double distY = py - y;
-            double distR = pr - r;
-            double dist = Math.sqrt(distX * distX + distY * distY);
-            if(dist < distR){
-                int type = pu.getType();
-                if(type == 1){gainLife(); points += 30;}
-                if(type == 2){increasePower(1); points += 20;}
-                if(type == 3){increasePower(2); points += 30;}
-                GamePanel.powerUp.remove(pu);
-                if(power > 4){
-                    special = true;
-                    specialTimer = System.nanoTime();
+                double distX = px - x;
+                double distY = py - y;
+                double distR = pr + r;
+                double dist = Math.sqrt(distX * distX + distY * distY);
+                if(dist < distR){
+                    int type = pu.getType();
+                    System.out.println("Collecting power up >> " + type);
+                    if(type == 1){gainLife(); points += 30;}
+                    if(type == 2){increasePower(1); points += 20;}
+                    if(type == 3){increasePower(2); points += 30;}
+                    GamePanel.powerUp.remove(pu);
+                    if(power > 4){
+                        special = true;
+                        specialTimer = System.nanoTime();
+                    }
+                    i--;
+                    break;
                 }
-                i--;
-                break;
             }
-
         }
     }
 
