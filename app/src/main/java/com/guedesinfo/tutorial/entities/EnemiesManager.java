@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import androidx.annotation.RequiresApi;
 import com.guedesinfo.tutorial.GamePanel;
 
 import java.util.ArrayList;
@@ -74,7 +75,7 @@ public class EnemiesManager implements GameObject{
             if(newType == 0) newType = 1;
             if(newType > 4) newType = 4;
 
-            int qtd =(int)number/3;
+            int qtd = number /3;
 
             for(int i = 0; i < qtd; i++){
                 e1 = new Enemy(type, rank);
@@ -93,17 +94,17 @@ public class EnemiesManager implements GameObject{
     }
 
     private void updateEnemies(){
-        for (Enemy e : enemies) {
-            e.update();
+        for(int i = 0; i < enemies.size(); i++){
+            enemies.get(i).update();
         }
     }
 
     @Override
     public void update() {
-//        createNewEnemies();
         if(enemies.size() != 0) updateEnemies();
     }
 
+    @RequiresApi(api = 29)
     @Override
     public void draw(Canvas canvas) {
         for(int i = 0; i < enemies.size(); i++){

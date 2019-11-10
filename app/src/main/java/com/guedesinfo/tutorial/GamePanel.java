@@ -1,11 +1,11 @@
 package com.guedesinfo.tutorial;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.Rect;
 import android.os.Build;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -13,6 +13,7 @@ import android.view.SurfaceView;
 import androidx.annotation.RequiresApi;
 import com.guedesinfo.tutorial.engine.Constants;
 import com.guedesinfo.tutorial.engine.MainThread;
+import com.guedesinfo.tutorial.engine.Particles;
 import com.guedesinfo.tutorial.entities.Bullet;
 import com.guedesinfo.tutorial.entities.EnemiesManager;
 import com.guedesinfo.tutorial.entities.Player;
@@ -29,6 +30,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private boolean running;
     //ENTITIES
     public static ArrayList <Bullet> bullets;
+    public static ArrayList <Particles> particles;
     public static Player player;
     public static Point playerPoint;
     public static EnemiesManager em;
@@ -53,6 +55,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
         em = new EnemiesManager();
         bullets = new ArrayList<Bullet>();
+        particles = new ArrayList<Particles>();
 
         setFocusable(true);
     }
@@ -80,7 +83,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
             }
         }
 
-        if(waveStart && em.enemies.size() == 0) EnemiesManager.createNewEnemies();
+        if(waveStart && EnemiesManager.enemies.size() == 0) EnemiesManager.createNewEnemies();
     }
 
     @Override
@@ -113,7 +116,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event){
-
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
@@ -124,7 +126,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                 player.setFiring(false);
                 break;
         }
-
         return true;
 //        return super.onTouchEvent(event);
     }
@@ -144,9 +145,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                 i--;
             }
         }
+
+        for(int i = 0; i < particles.size(); i++){
+            particles.get(i).update();
+        }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void draw(Canvas canvas){
         super.draw(canvas);
@@ -158,6 +162,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
         for (Bullet bullet : bullets) {
             bullet.draw(canvas);
+        }
+
+        for(Particles p : particles){
+            p.draw(canvas);
         }
     }
 }

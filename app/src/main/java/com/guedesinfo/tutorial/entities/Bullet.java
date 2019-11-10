@@ -62,6 +62,6 @@ public class Bullet {
     public void draw(Canvas canvas){
         Paint p = new Paint();
         p.setColor(color1);
-        canvas.drawCircle((float)x, (float) y, r, p);
+        canvas.drawCircle((float)x, (float)y, r, p);
     }
 }

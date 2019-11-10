@@ -1,7 +1,9 @@
 package com.guedesinfo.tutorial.entities;
 
-import android.content.res.Resources;
-import android.graphics.*;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Point;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
 import com.guedesinfo.tutorial.GamePanel;
@@ -25,7 +27,7 @@ public class Player implements GameObject{
     public Player(){
         x = Constants.SCREEN_WIDTH / 2 - r/2;
         y = Constants.SCREEN_HEIGHT / 4 - r/2;
-        r = 70;
+        r = 50;
 
         dx = 0;
         dy = 0;
@@ -41,6 +43,10 @@ public class Player implements GameObject{
     public void setX(Point point){x = point.x;}
     public void setY(Point point){y = point.y;}
 
+    public double getX(){return x;}
+    public double getY(){return y;}
+    public double getR(){return r;}
+
 
     private void limits(Point point){
         x = point.x;
@@ -53,26 +59,35 @@ public class Player implements GameObject{
     }
 
     private void collidingWithEnemy(){
-        for(int i = 0; i < GamePanel.em.enemies.size(); i++){
-            Enemy e = GamePanel.em.enemies.get(i);
+        for(int i = 0; i < EnemiesManager.enemies.size(); i++){
+            Enemy e = EnemiesManager.enemies.get(i);
+            double ex = e.getX();
+            double ey = e.getY();
+            double er = e.getR();
+
+            double distX = ex - x;
+            double distY = ey - y;
+            double distR = er + r;
+            double dist = Math.sqrt(distX * distX + distY * distY);
+            if(dist < distR){
+//                System.out.println("Colidding with enemy");
+            }
         }
     }
 
     private void firing(){
         if(firing){
-            System.out.println("Firing >> " + firing);
             long elapsed = (System.nanoTime() - firingTimer) / 1000000;
             if(elapsed > firingDelay){
                 firingTimer = System.nanoTime();
-
-                GamePanel.bullets.add(new Bullet(-90, x , y));
+                GamePanel.bullets.add(new Bullet(-90, x , y, 5, 1));
             }
         }
     }
 
     public void update(Point point){
         limits(point);
-//        collidingWithEnemy();
+        collidingWithEnemy();
         firing();
     }
 
@@ -88,7 +103,8 @@ public class Player implements GameObject{
         paint.setColor(color);
         canvas.drawCircle((float)x, (float)y, (float)(r - r/4), paint);
 
-        String score = "Score: " + points;
-        canvas.drawText("Points: " + points, Constants.SCREEN_WIDTH - 200, 50, paint);
+        //print string
+        String pts = "Points: " + points;
+        canvas.drawText(pts, Constants.SCREEN_WIDTH/2,50, paint);
     }
 }
