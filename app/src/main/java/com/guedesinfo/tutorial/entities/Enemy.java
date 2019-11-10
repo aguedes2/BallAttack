@@ -221,6 +221,9 @@ public class Enemy implements GameObject{
         }
     }
 
+    /**
+     * method to explode enemy and create particles and power up
+     */
     private void explode(){
         double px = x, py = y, dx = 0, dy = 0;
         for(int i = 0; i < 20; i++){

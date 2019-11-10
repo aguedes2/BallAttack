@@ -7,6 +7,10 @@ import com.guedesinfo.tutorial.GamePanel;
 
 import java.util.Random;
 
+/**
+ * created by Fernando Guedes
+ */
+
 public class Particles {
     double x, y, dx = 0, dy = 0, r;
     private int curLife = 0;
