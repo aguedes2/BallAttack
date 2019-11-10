@@ -3,10 +3,11 @@ package com.guedesinfo.tutorial.entities;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import com.guedesinfo.tutorial.engine.Constants;
 
 public class PowerUp {
 
-    private double x, y, r;
+    private double x, y, r, speed;
     private int type;
     private int color1, color2;
 
@@ -40,11 +41,13 @@ public class PowerUp {
     }
     //////////////////////////////////////////////////////////////////////////////
     public boolean update(){
-        if(type == 1) y += 5;
-        if(type == 1) y += 7;
-        if(type == 1) y += 9;
+        if(type == 1) speed = 5;
+        if(type == 2) speed = 7;
+        if(type == 3) speed = 9;
 
-        return y < 0 + r;
+        y += speed;
+
+        return y > Constants.SCREEN_HEIGHT - r;
     }
 
     public void draw(Canvas canvas){
