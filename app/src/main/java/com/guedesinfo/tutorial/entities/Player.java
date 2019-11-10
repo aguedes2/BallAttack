@@ -13,10 +13,10 @@ public class Player implements GameObject{
     //FIELDS
     private int color;
     private int life;
-    private long firingTimer, firingDelay, specialTimer;
-    private boolean firing, special;
+    private long firingTimer, firingDelay, specialTimer, timerRecovering;
+    private boolean firing, special, recovering, show;
 
-    private int x, y, dx, dy, r, points = 0;
+    private int x, y, dx, dy, r, points = 0, frames = 0;
 
     private int powerLevel = 0;
     private int power = 0;
@@ -28,6 +28,7 @@ public class Player implements GameObject{
         x = Constants.SCREEN_WIDTH / 2 - r/2;
         y = Constants.SCREEN_HEIGHT / 4 - r/2;
         r = 50;
+        life = 3;
 
         dx = 0;
         dy = 0;
@@ -46,6 +47,8 @@ public class Player implements GameObject{
     public double getX(){return x;}
     public double getY(){return y;}
     public double getR(){return r;}
+    public int getPoints(){return points;}
+    public int getLife(){return life;}
 
     private void gainLife(){
         life++;
@@ -73,7 +76,27 @@ public class Player implements GameObject{
             double distR = er + r;
             double dist = Math.sqrt(distX * distX + distY * distY);
             if(dist < distR){
-//                System.out.println("Colidding with enemy");
+                recovering = true;
+                timerRecovering = System.nanoTime();
+            }
+        }
+    }
+
+    private boolean show(){
+        frames++;
+        if(frames % 3 == 0){
+            frames = 0;
+            show = !show;
+        }
+        return show;
+    }
+
+    private void recovering(){
+        if(recovering){
+            long elapsed = (System.nanoTime() - timerRecovering) / 1000000;
+            if(elapsed > 1500) {
+                recovering = false;
+                timerRecovering = 0;
             }
         }
     }
@@ -134,6 +157,7 @@ public class Player implements GameObject{
         collidingWithEnemy();
         collectPowerUp();
         firing();
+        recovering();
     }
 
     @Override
@@ -143,13 +167,18 @@ public class Player implements GameObject{
     @Override
     public void draw(Canvas canvas) {
         Paint paint = new Paint();
-        paint.setColor(Color.rgb(200, 200, 200));
-        canvas.drawCircle((float)x, (float)y, (float)(r), paint);
-        paint.setColor(color);
-        canvas.drawCircle((float)x, (float)y, (float)(r - r/4), paint);
-
-        //print string
-        String pts = "Points: " + points;
-        canvas.drawText(pts, Constants.SCREEN_WIDTH/2,50, paint);
+        if(!recovering){
+            paint.setColor(Color.rgb(200, 200, 200));
+            canvas.drawCircle((float)x, (float)y, (float)(r), paint);
+            paint.setColor(color);
+            canvas.drawCircle((float)x, (float)y, (float)(r - r/4), paint);
+        }else{
+            if(show()){
+                paint.setColor(Color.rgb(180, 0, 0));
+                canvas.drawCircle((float)x, (float)y, (float)(r), paint);
+                paint.setColor(Color.rgb(230, 0, 0));
+                canvas.drawCircle((float)x, (float)y, (float)(r - r/4), paint);
+            }
+        }
     }
 }

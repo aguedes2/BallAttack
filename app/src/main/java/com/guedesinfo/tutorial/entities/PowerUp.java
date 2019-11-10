@@ -47,8 +47,8 @@ public class PowerUp {
 
     public boolean update(){
         if(type == 1) speed = 5;
-        if(type == 2) speed = 7;
-        if(type == 3) speed = 9;
+        if(type == 2) speed = 15;
+        if(type == 3) speed = 20;
 
         y += speed;
 
