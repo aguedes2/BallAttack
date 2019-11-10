@@ -6,7 +6,8 @@ import android.graphics.Paint;
 import androidx.annotation.RequiresApi;
 import com.guedesinfo.tutorial.GamePanel;
 import com.guedesinfo.tutorial.engine.Constants;
-import com.guedesinfo.tutorial.engine.Particles;
+
+import java.util.Random;
 
 public class Enemy implements GameObject{
 
@@ -155,6 +156,7 @@ public class Enemy implements GameObject{
 
     private void checkDeath(){
         if(health < 0){
+            checkPowerUp();
             explode();
             EnemiesManager.enemies.remove(this);
         }
@@ -219,6 +221,13 @@ public class Enemy implements GameObject{
             frames = 0;
             hit = !hit;
         }
+    }
+
+    private void checkPowerUp(){
+        double rand = Math.random();
+        if(rand <= 0.005)GamePanel.powerUp.add(new PowerUp(1, x, y));
+        else if(rand <= 0.020) GamePanel.powerUp.add(new PowerUp(3, x, y));
+        else if(rand <= 0.120) GamePanel.powerUp.add(new PowerUp(2, x, y));
     }
 
     /**
