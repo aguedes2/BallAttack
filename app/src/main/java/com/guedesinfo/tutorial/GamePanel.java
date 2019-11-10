@@ -147,7 +147,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         }
 
         for(int i = 0; i < powerUp.size(); i++){
-            powerUp.get(i).update();
+            boolean remove = powerUp.get(i).update();
+            if(remove){
+                powerUp.remove(i);
+                i--;
+            }
         }
     }
 
