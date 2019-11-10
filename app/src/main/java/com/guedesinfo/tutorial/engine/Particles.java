@@ -32,7 +32,7 @@ public class Particles {
         y += dy * speed;
 
         curLife++;
-        if(curLife > 30){
+        if(curLife > 45){
             GamePanel.particles.remove(this);
         }
     }
