@@ -40,6 +40,11 @@ public class PowerUp {
         }
     }
     //////////////////////////////////////////////////////////////////////////////
+    public double getX(){return x;}
+    public double getY(){return y;}
+    public double getR(){return r;}
+    public int getType(){return type;}
+
     public boolean update(){
         if(type == 1) speed = 5;
         if(type == 2) speed = 7;

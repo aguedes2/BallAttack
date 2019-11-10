@@ -13,8 +13,8 @@ public class Player implements GameObject{
     //FIELDS
     private int color;
     private int life;
-    private long firingTimer, firingDelay;
-    private boolean firing;
+    private long firingTimer, firingDelay, specialTimer;
+    private boolean firing, special;
 
     private int x, y, dx, dy, r, points = 0;
 
@@ -47,6 +47,9 @@ public class Player implements GameObject{
     public double getY(){return y;}
     public double getR(){return r;}
 
+    private void gainLife(){
+        life++;
+    }
 
     private void limits(Point point){
         x = point.x;
@@ -75,6 +78,45 @@ public class Player implements GameObject{
         }
     }
 
+    private void collectPowerUp(){
+        for( int i = 0; i < GamePanel.powerUp.size(); i++){
+            PowerUp pu = GamePanel.powerUp.get(i);
+            double px = pu.getX();
+            double py = pu.getY();
+            double pr = pu.getR();
+
+            double distX = px - x;
+            double distY = py - y;
+            double distR = pr - r;
+            double dist = Math.sqrt(distX * distX + distY * distY);
+            if(dist < distR){
+                int type = pu.getType();
+                if(type == 1){gainLife(); points += 30;}
+                if(type == 2){increasePower(1); points += 20;}
+                if(type == 3){increasePower(2); points += 30;}
+                GamePanel.powerUp.remove(pu);
+                if(power > 4){
+                    special = true;
+                    specialTimer = System.nanoTime();
+                }
+                i--;
+                break;
+            }
+
+        }
+    }
+
+    private void increasePower(int p){
+        int maxPower = requiredPower.length;
+        if(power + p <= maxPower){
+            power += p;
+            if(power > requiredPower[powerLevel]){
+                power -= requiredPower[powerLevel];
+                powerLevel++;
+            }
+        }
+    }
+
     private void firing(){
         if(firing){
             long elapsed = (System.nanoTime() - firingTimer) / 1000000;
@@ -88,6 +130,7 @@ public class Player implements GameObject{
     public void update(Point point){
         limits(point);
         collidingWithEnemy();
+        collectPowerUp();
         firing();
     }
 
