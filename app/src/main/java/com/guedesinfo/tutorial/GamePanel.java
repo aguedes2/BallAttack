@@ -10,10 +10,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import com.guedesinfo.tutorial.engine.Constants;
 import com.guedesinfo.tutorial.engine.MainThread;
-import com.guedesinfo.tutorial.entities.Particles;
-import com.guedesinfo.tutorial.entities.Bullet;
-import com.guedesinfo.tutorial.entities.EnemiesManager;
-import com.guedesinfo.tutorial.entities.Player;
+import com.guedesinfo.tutorial.entities.*;
 
 import java.util.ArrayList;
 
@@ -28,6 +25,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     //ENTITIES
     public static ArrayList <Bullet> bullets;
     public static ArrayList <Particles> particles;
+    public static ArrayList <PowerUp> powerUp;
     public static Player player;
     public static Point playerPoint;
     public static EnemiesManager em;
@@ -53,6 +51,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         em = new EnemiesManager();
         bullets = new ArrayList<Bullet>();
         particles = new ArrayList<Particles>();
+        powerUp = new ArrayList <PowerUp>();
 
         setFocusable(true);
     }
@@ -146,6 +145,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         for(int i = 0; i < particles.size(); i++){
             particles.get(i).update();
         }
+
+        for(int i = 0; i < powerUp.size(); i++){
+            powerUp.get(i).update();
+        }
     }
 
     @Override
@@ -163,6 +166,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
         for(Particles p : particles){
             p.draw(canvas);
+        }
+
+        for(PowerUp pu : powerUp){
+            pu.draw(canvas);
         }
     }
 }
