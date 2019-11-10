@@ -1,7 +1,9 @@
 package com.guedesinfo.tutorial.engine;
 
 import android.graphics.Canvas;
+import android.os.Build;
 import android.view.SurfaceHolder;
+import androidx.annotation.RequiresApi;
 import com.guedesinfo.tutorial.GamePanel;
 import com.guedesinfo.tutorial.entities.GameObject;
 
@@ -19,6 +21,7 @@ public class MainThread extends Thread{
         this.gamePanel = gamePanel;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void run(){
         long startTime;

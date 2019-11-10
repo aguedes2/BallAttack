@@ -3,14 +3,16 @@ package com.guedesinfo.tutorial.entities;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import androidx.annotation.RequiresApi;
 import com.guedesinfo.tutorial.GamePanel;
 import com.guedesinfo.tutorial.engine.Constants;
+import com.guedesinfo.tutorial.engine.Particles;
 
 public class Enemy implements GameObject{
 
     //FIELDS
     private int color1, color2;
-    private int type, rank, health;
+    private int type, rank, health, frames;
     private double x, y, r, dx, dy, rad, speed;
     private double xMin = r, yMin = r, xMax = Constants.SCREEN_WIDTH - r, yMax = Constants.SCREEN_HEIGHT - r;
     private long hitTimer;
@@ -28,25 +30,25 @@ public class Enemy implements GameObject{
             if(rank == 1){
                 color1 = Color.rgb(0, 0,139); //blue
                 color2 = Color.rgb(0, 0, 200); //dark bluewidth = 100;
-                r = 80;
+                r = 60;
                 speed = 20;
             }
             if(rank == 2){
                 color1 = Color.rgb(255, 255, 0); //yellow
                 color2 = Color.rgb(85, 107, 47);//dark olive yellow
-                r = 70;
+                r = 50;
                 speed = 30;
             }
             if(rank == 3){
                 color1 = Color.rgb(255, 192, 203); //pink
                 color2 = Color.rgb(255, 20, 147); //deep pink
-                r = 60;
+                r = 40;
                 speed = 40;
             }
             if(rank == 4){
                 color1 = Color.rgb(255, 0, 0); //red
                 color2 = Color.rgb(139, 0, 0);//dark red
-                r = 50;
+                r = 30;
                 speed = 50;
             }
         }
@@ -56,31 +58,31 @@ public class Enemy implements GameObject{
             if(rank == 1){
                 color1 = Color.rgb(0,128,0); //green
                 color2 = Color.rgb(0,100,0); //dark green
-                r = 60;
+                r = 30;
                 health = 3;
             }
             if(rank == 2){
                 color1 = Color.rgb(224,255,255); //light cyan
                 color2 = Color.rgb(244,164,96);//sandy brown
-                r = 70;
+                r = 40;
                 health = 4;
             }
             if(rank == 3){
                 color1 = Color.rgb(245,222,179);//weat
                 color2 = Color.rgb(245,222,179);//weat
-                r = 80;
+                r = 50;
                 health = 5;
             }
             if(rank == 4){
                 color1 = Color.rgb(192,192,192);//silver
                 color2 = Color.rgb(128,128,128);//gray
-                r = 90;
+                r = 60;
                 health = 6;
             }
         }
         else if(type == 3){
             //health and speed variables
-            r = 80;
+            r = 60;
             if(rank == 1){
                 color1 = Color.rgb(75,0,130);//indigo
                 color2 = Color.rgb(37,0, 75); //purple
@@ -109,7 +111,7 @@ public class Enemy implements GameObject{
         else if(type == 4){
             //speed variable
             health = 3;
-            r = 7;
+            r = 50;
             if(rank == 1){
                 color1 = Color.rgb(218,165,32); //goldenrod
                 color2 = Color.rgb(184,134,11);// dark goldenrod
@@ -132,7 +134,7 @@ public class Enemy implements GameObject{
             }
         }
 
-        x = 5 * Math.random() * Constants.SCREEN_WIDTH / 4 ;
+        x = Math.random() * Constants.SCREEN_WIDTH / 2 + Constants.SCREEN_WIDTH / 4;
         y = r;
 
         double angle = Math.random() * 140 + 20;
@@ -151,10 +153,16 @@ public class Enemy implements GameObject{
     public double getR(){return r;}
     public double getType(){return type;}
 
+    private void checkDeath(){
+        if(health < 0){
+            explode();
+            EnemiesManager.enemies.remove(this);
+        }
+    }
+
     public void hit(int type){
         this.hitTimer = System.nanoTime();
         this.hit = true;
-        int bType = type;
         switch(type){
             case 1: health--; break;
             case 2: health -= 2; break;
@@ -176,7 +184,7 @@ public class Enemy implements GameObject{
                 double dx = x - bx;
                 double dy = y - by;
                 double dist = Math.sqrt(dx * dx + dy * dy);
-                if(dist < br - r){
+                if(dist < br + r){
                     hit(b.getType());
                     GamePanel.bullets.remove(i);
                     i--;
@@ -196,12 +204,42 @@ public class Enemy implements GameObject{
         if(y < r | y > Constants.SCREEN_HEIGHT - r) dy = -dy;
     }
 
+    private void isHitting(){
+        long elapse = (System.nanoTime() - hitTimer) / 1000000;
+        if(elapse > 50){
+            hitFrames();
+            this.hit = false;
+            hitTimer = 0;
+        }
+    }
+
+    private void hitFrames(){
+        frames++;
+        if(frames % 6 == 0){
+            frames = 0;
+            hit = !hit;
+        }
+    }
+
+    private void explode(){
+        double px = x, py = y, dx = 0, dy = 0;
+        for(int i = 0; i < 20; i++){
+            GamePanel.particles.add(new Particles(px, py, 5));
+            GamePanel.particles.get(i).setColor(color1);
+            GamePanel.particles.get(i).setColor2(color2);
+        }
+    }
+
     @Override
     public void update() {
         toMove();
         isCollidingWithBullet();
+        checkDeath();
+
+        if(hit)isHitting();
     }
 
+    @RequiresApi(api = 29)
     @Override
     public void draw(Canvas canvas) {
         Paint paint = new Paint();
