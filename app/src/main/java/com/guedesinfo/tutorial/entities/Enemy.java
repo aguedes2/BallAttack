@@ -6,7 +6,6 @@ import android.graphics.Paint;
 import androidx.annotation.RequiresApi;
 import com.guedesinfo.tutorial.GamePanel;
 import com.guedesinfo.tutorial.engine.Constants;
-import com.guedesinfo.tutorial.engine.Particles;
 
 public class Enemy implements GameObject{
 

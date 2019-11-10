@@ -1,19 +1,16 @@
 package com.guedesinfo.tutorial;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.os.Build;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import androidx.annotation.RequiresApi;
 import com.guedesinfo.tutorial.engine.Constants;
 import com.guedesinfo.tutorial.engine.MainThread;
-import com.guedesinfo.tutorial.engine.Particles;
+import com.guedesinfo.tutorial.entities.Particles;
 import com.guedesinfo.tutorial.entities.Bullet;
 import com.guedesinfo.tutorial.entities.EnemiesManager;
 import com.guedesinfo.tutorial.entities.Player;

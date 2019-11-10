@@ -1,4 +1,4 @@
-package com.guedesinfo.tutorial.engine;
+package com.guedesinfo.tutorial.entities;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
