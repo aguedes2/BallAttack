@@ -18,7 +18,7 @@ public class Bullet {
     public Bullet(double angle, int x, int y){
         this.x = x;
         this.y = y;
-        r = 8;
+        r = 10;
         speed = 50;
 
         rad = Math.toRadians(angle);

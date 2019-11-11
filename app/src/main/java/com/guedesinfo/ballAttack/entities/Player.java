@@ -174,35 +174,35 @@ public class Player implements GameObject{
             if(elapsed > firingDelay){
                 firingTimer = System.nanoTime();
 
-                if(powerLevel < 2) GamePanel.bullets.add(new Bullet(-90, x , y, 5, 1));
+                if(powerLevel < 2) GamePanel.bullets.add(new Bullet(-90, x , y, 8, 1));
                 else if(powerLevel < 3){
-                    GamePanel.bullets.add(new Bullet(-85, x - 5, y, 5, 1));
-                    GamePanel.bullets.add(new Bullet(-95, x + 5, y, 5, 1));
+                    GamePanel.bullets.add(new Bullet(-85, x - 5, y, 8, 1));
+                    GamePanel.bullets.add(new Bullet(-95, x + 5, y, 8, 1));
                 }
                 else if(powerLevel < 4){
-                    GamePanel.bullets.add(new Bullet(-85, x - 5, y, 5, 1));
-                    GamePanel.bullets.add(new Bullet(-90, x, y, 5, 1));
-                    GamePanel.bullets.add(new Bullet(-95, x + 5, y, 5, 1));
+                    GamePanel.bullets.add(new Bullet(-85, x - 5, y, 8, 1));
+                    GamePanel.bullets.add(new Bullet(-90, x, y, 8, 1));
+                    GamePanel.bullets.add(new Bullet(-95, x + 5, y, 8, 1));
                 }
                 else if(powerLevel < 5){
-                    GamePanel.bullets.add(new Bullet(-85, x - 5, y, 5, 1));
-                    GamePanel.bullets.add(new Bullet(-90, x, y, 7, 2));
-                    GamePanel.bullets.add(new Bullet(-95, x + 5, y, 5, 1));
+                    GamePanel.bullets.add(new Bullet(-85, x - 5, y, 8, 1));
+                    GamePanel.bullets.add(new Bullet(-90, x, y, 10, 2));
+                    GamePanel.bullets.add(new Bullet(-95, x + 5, y, 8, 1));
                 }
                 else if(powerLevel < 6){
-                    GamePanel.bullets.add(new Bullet(-85, x - 5, y, 7, 2));
-                    GamePanel.bullets.add(new Bullet(-90, x, y, 7, 2));
-                    GamePanel.bullets.add(new Bullet(-95, x + 5, y, 7, 2));
+                    GamePanel.bullets.add(new Bullet(-85, x - 5, y, 10, 2));
+                    GamePanel.bullets.add(new Bullet(-90, x, y, 10, 2));
+                    GamePanel.bullets.add(new Bullet(-95, x + 5, y, 10, 2));
                 }
 
                 if(special){
                     long time = System.nanoTime();
                     if((time - specialTimer)/1000000 < 5){
-                        GamePanel.bullets.add(new Bullet(-80, x - 10, y, 5, 1));
-                        GamePanel.bullets.add(new Bullet(-85, x - 5, y, 7, 2));
-                        GamePanel.bullets.add(new Bullet(-90, x, y, 9, 3));
-                        GamePanel.bullets.add(new Bullet(-95, x + 5, y, 7, 2));
-                        GamePanel.bullets.add(new Bullet(-100, x + 10, y, 5, 1));
+                        GamePanel.bullets.add(new Bullet(-80, x - 10, y, 8, 1));
+                        GamePanel.bullets.add(new Bullet(-85, x - 5, y, 10, 2));
+                        GamePanel.bullets.add(new Bullet(-90, x, y, 13, 3));
+                        GamePanel.bullets.add(new Bullet(-95, x + 5, y, 10, 2));
+                        GamePanel.bullets.add(new Bullet(-100, x + 10, y, 8, 1));
                     }
                 }
             }
