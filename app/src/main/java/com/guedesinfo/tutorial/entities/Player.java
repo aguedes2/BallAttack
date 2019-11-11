@@ -8,13 +8,14 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 import com.guedesinfo.tutorial.GamePanel;
 import com.guedesinfo.tutorial.engine.Constants;
+import com.guedesinfo.tutorial.engine.States;
 
 public class Player implements GameObject{
     //FIELDS
     private int color;
     private int life;
     private long firingTimer, firingDelay, specialTimer, timerRecovering;
-    private boolean firing, special, recovering, show;
+    private boolean firing, special, recovering, show, dead = false;
 
     private int x, y, dx, dy, r, points = 0, frames = 0;
 
@@ -27,7 +28,7 @@ public class Player implements GameObject{
     public Player(){
         x = Constants.SCREEN_WIDTH / 2 - r/2;
         y = Constants.SCREEN_HEIGHT / 4 - r/2;
-        r = 50;
+        r = 40;
         life = 3;
 
         dx = 0;
@@ -42,17 +43,25 @@ public class Player implements GameObject{
     //METHODS
     public void setFiring(boolean b){firing = b;}
     public void setX(Point point){x = point.x;}
+    public void restartPosition(){
+        x = Constants.SCREEN_WIDTH / 2 - r/2;
+        y = Constants.SCREEN_HEIGHT / 4 - r/2;
+    }
     public void setY(Point point){y = point.y;}
+    public void setPoint(int p){points += p;}
+    public void isDead(boolean b){dead = b;}
+    public void resetPoints(){points = 0;}
+    public void setLife(int l){life = l;}
+    public void setPower(int p){power = p;}
+    public void setPowerLevel(int pl){powerLevel = pl;}
 
     public double getX(){return x;}
     public double getY(){return y;}
     public double getR(){return r;}
     public int getPoints(){return points;}
     public int getLife(){return life;}
-
-    private void gainLife(){
-        life++;
-    }
+    public int getPower(){return power;}
+    public int getRequirePower(){return requiredPower[powerLevel];}
 
     private void limits(Point point){
         x = point.x;
@@ -76,8 +85,35 @@ public class Player implements GameObject{
             double distR = er + r;
             double dist = Math.sqrt(distX * distX + distY * distY);
             if(dist < distR){
-                recovering = true;
-                timerRecovering = System.nanoTime();
+                EnemiesManager.enemies.remove(e);
+                checkLife();
+                i--;
+                break;
+            }
+        }
+    }
+
+    private void checkLife() {
+        life--;
+        recovering = true;
+        timerRecovering = System.nanoTime();
+        if(life<=0){
+            GamePanel.states = States.GAME_OVER;
+            GamePanel.waveStart = false;
+            dead = true;
+        }
+    }
+
+    private void gainLife(){
+        life++;
+    }
+
+    private void recovering(){
+        if(recovering){
+            long elapsed = (System.nanoTime() - timerRecovering) / 1000000;
+            if(elapsed > 1500) {
+                recovering = false;
+                timerRecovering = 0;
             }
         }
     }
@@ -89,16 +125,6 @@ public class Player implements GameObject{
             show = !show;
         }
         return show;
-    }
-
-    private void recovering(){
-        if(recovering){
-            long elapsed = (System.nanoTime() - timerRecovering) / 1000000;
-            if(elapsed > 1500) {
-                recovering = false;
-                timerRecovering = 0;
-            }
-        }
     }
 
     private void collectPowerUp(){
@@ -115,7 +141,6 @@ public class Player implements GameObject{
                 double dist = Math.sqrt(distX * distX + distY * distY);
                 if(dist < distR){
                     int type = pu.getType();
-                    System.out.println("Collecting power up >> " + type);
                     if(type == 1){gainLife(); points += 30;}
                     if(type == 2){increasePower(1); points += 20;}
                     if(type == 3){increasePower(2); points += 30;}
@@ -154,9 +179,9 @@ public class Player implements GameObject{
 
     public void update(Point point){
         limits(point);
-        collidingWithEnemy();
         collectPowerUp();
         firing();
+        if(!recovering) collidingWithEnemy();
         recovering();
     }
 
@@ -168,7 +193,7 @@ public class Player implements GameObject{
     public void draw(Canvas canvas) {
         Paint paint = new Paint();
         if(!recovering){
-            paint.setColor(Color.rgb(200, 200, 200));
+            paint.setColor(Color.rgb(192, 192, 192));
             canvas.drawCircle((float)x, (float)y, (float)(r), paint);
             paint.setColor(color);
             canvas.drawCircle((float)x, (float)y, (float)(r - r/4), paint);

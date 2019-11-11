@@ -5,7 +5,6 @@ import android.os.Build;
 import android.view.SurfaceHolder;
 import androidx.annotation.RequiresApi;
 import com.guedesinfo.tutorial.GamePanel;
-import com.guedesinfo.tutorial.entities.GameObject;
 
 public class MainThread extends Thread{
     public static final int MAX_FPS = 30;
