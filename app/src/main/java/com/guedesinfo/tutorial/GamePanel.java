@@ -93,6 +93,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private void restartGame(){
         System.out.println("Restarting Games");
         player.isDead(false);
+        player.setFiring(false);
         player.resetPoints();
         player.setLife(3);
         player.setPower(0);
@@ -142,13 +143,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                     playerPoint.set((int)event.getX(), (int)event.getY());
                     player.setFiring(true);
                 }
-                else if(states == States.GAME_OVER){
-                    restartGame();
-                }
 
                 break;
             case MotionEvent.ACTION_UP:
-                player.setFiring(false);
+                if(states == States.PLAYING) player.setFiring(false);
+                if(states == States.GAME_OVER) restartGame();
                 break;
         }
         return true;

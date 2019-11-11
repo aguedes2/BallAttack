@@ -28,7 +28,7 @@ public class Player implements GameObject{
     public Player(){
         x = Constants.SCREEN_WIDTH / 2 - r/2;
         y = Constants.SCREEN_HEIGHT / 4 - r/2;
-        r = 50;
+        r = 40;
         life = 3;
 
         dx = 0;
