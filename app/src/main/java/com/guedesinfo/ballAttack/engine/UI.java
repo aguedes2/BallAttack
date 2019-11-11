@@ -1,9 +1,8 @@
-package com.guedesinfo.tutorial.engine;
+package com.guedesinfo.ballAttack.engine;
 
 import android.graphics.*;
-import android.graphics.fonts.Font;
 import androidx.annotation.RequiresApi;
-import com.guedesinfo.tutorial.GamePanel;
+import com.guedesinfo.ballAttack.GamePanel;
 
 public class UI {
 

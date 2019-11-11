@@ -1,12 +1,11 @@
-package com.guedesinfo.tutorial;
+package com.guedesinfo.ballAttack;
 
 import android.app.Activity;
 import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.WindowManager;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import com.guedesinfo.tutorial.engine.Constants;
+import com.guedesinfo.ballAttack.engine.Constants;
 
 public class MainActivity extends Activity {
 

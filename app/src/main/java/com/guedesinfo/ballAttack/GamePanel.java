@@ -1,4 +1,4 @@
-package com.guedesinfo.tutorial;
+package com.guedesinfo.ballAttack;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -10,11 +10,11 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import androidx.annotation.RequiresApi;
-import com.guedesinfo.tutorial.engine.Constants;
-import com.guedesinfo.tutorial.engine.MainThread;
-import com.guedesinfo.tutorial.engine.States;
-import com.guedesinfo.tutorial.engine.UI;
-import com.guedesinfo.tutorial.entities.*;
+import com.guedesinfo.ballAttack.engine.Constants;
+import com.guedesinfo.ballAttack.engine.MainThread;
+import com.guedesinfo.ballAttack.engine.States;
+import com.guedesinfo.ballAttack.engine.UI;
+import com.guedesinfo.ballAttack.entities.*;
 
 import java.util.ArrayList;
 

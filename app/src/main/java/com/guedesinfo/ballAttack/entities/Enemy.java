@@ -1,13 +1,11 @@
-package com.guedesinfo.tutorial.entities;
+package com.guedesinfo.ballAttack.entities;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import androidx.annotation.RequiresApi;
-import com.guedesinfo.tutorial.GamePanel;
-import com.guedesinfo.tutorial.engine.Constants;
-
-import java.util.Random;
+import com.guedesinfo.ballAttack.GamePanel;
+import com.guedesinfo.ballAttack.engine.Constants;
 
 public class Enemy implements GameObject{
 

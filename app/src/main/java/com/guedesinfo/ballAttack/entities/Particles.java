@@ -1,9 +1,8 @@
-package com.guedesinfo.tutorial.entities;
+package com.guedesinfo.ballAttack.entities;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import com.guedesinfo.tutorial.GamePanel;
+import com.guedesinfo.ballAttack.GamePanel;
 
 import java.util.Random;
 

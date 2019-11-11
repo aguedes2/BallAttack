@@ -1,4 +1,4 @@
-package com.guedesinfo.tutorial;
+package com.guedesinfo.ballAttack;
 
 import org.junit.Test;
 

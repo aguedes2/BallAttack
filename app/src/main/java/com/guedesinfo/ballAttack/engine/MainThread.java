@@ -1,10 +1,11 @@
-package com.guedesinfo.tutorial.engine;
+package com.guedesinfo.ballAttack.engine;
 
+import android.annotation.TargetApi;
 import android.graphics.Canvas;
 import android.os.Build;
 import android.view.SurfaceHolder;
 import androidx.annotation.RequiresApi;
-import com.guedesinfo.tutorial.GamePanel;
+import com.guedesinfo.ballAttack.GamePanel;
 
 public class MainThread extends Thread{
     public static final int MAX_FPS = 30;
@@ -20,6 +21,7 @@ public class MainThread extends Thread{
         this.gamePanel = gamePanel;
     }
 
+    @TargetApi(29)
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void run(){

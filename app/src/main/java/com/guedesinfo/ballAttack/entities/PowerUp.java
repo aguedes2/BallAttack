@@ -1,9 +1,9 @@
-package com.guedesinfo.tutorial.entities;
+package com.guedesinfo.ballAttack.entities;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import com.guedesinfo.tutorial.engine.Constants;
+import com.guedesinfo.ballAttack.engine.Constants;
 
 public class PowerUp {
 
@@ -46,7 +46,7 @@ public class PowerUp {
     public int getType(){return type;}
 
     public boolean update(){
-        if(type == 1) speed = 5;
+        if(type == 1) speed = 10;
         if(type == 2) speed = 15;
         if(type == 3) speed = 20;
 
