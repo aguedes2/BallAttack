@@ -1,6 +1,7 @@
 package com.guedesinfo.tutorial;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -8,8 +9,10 @@ import android.graphics.Point;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import androidx.annotation.RequiresApi;
 import com.guedesinfo.tutorial.engine.Constants;
 import com.guedesinfo.tutorial.engine.MainThread;
+import com.guedesinfo.tutorial.engine.States;
 import com.guedesinfo.tutorial.engine.UI;
 import com.guedesinfo.tutorial.entities.*;
 
@@ -32,11 +35,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public static EnemiesManager em;
     private UI ui;
     //Wave Fields
-    private static long waveStartTimer;
-    private static long waveStartTimerDiff;
+    public static long waveStartTimer;
+    public static long waveStartTimerDiff;
     public static boolean waveStart;
     public static int waveNumber = 0;
-    private int waveDelay = 3000;
+    public static int waveDelay = 3000;
+
+    public static States states = States.PLAYING;
 
     //CONSTRUCT
     public GamePanel(Context context){
@@ -85,6 +90,21 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         if(waveStart && EnemiesManager.enemies.size() == 0) EnemiesManager.createNewEnemies();
     }
 
+    private void restartGame(){
+        System.out.println("Restarting Games");
+        player.isDead(false);
+        player.resetPoints();
+        player.setLife(3);
+        player.setPower(0);
+        player.setPowerLevel(0);
+        player.restartPosition();
+        EnemiesManager.enemies.clear();
+        bullets.clear();
+        powerUp.clear();
+        waveStartController();
+        states = States.PLAYING;
+    }
+
     @Override
     public void surfaceCreated(SurfaceHolder holder){
         thread = new MainThread(getHolder(), this);
@@ -118,8 +138,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
-                playerPoint.set((int)event.getX(), (int)event.getY());
-                player.setFiring(true);
+                if(states == States.PLAYING){
+                    playerPoint.set((int)event.getX(), (int)event.getY());
+                    player.setFiring(true);
+                }
+                else if(states == States.GAME_OVER){
+                    restartGame();
+                }
+
                 break;
             case MotionEvent.ACTION_UP:
                 player.setFiring(false);
@@ -158,25 +184,32 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
+    @TargetApi(29)
+    @RequiresApi(api = 29)
     @Override
     public void draw(Canvas canvas){
         super.draw(canvas);
+        if(waveNumber < 5) canvas.drawColor(Color.rgb(0, 100, 255));
+        else if(waveNumber < 10) canvas.drawColor(Color.rgb(0, 10, 25));
+        else if(waveNumber < 15) canvas.drawColor(Color.rgb(125, 25, 55));
+        else if(waveNumber < 20) canvas.drawColor(Color.rgb(80, 120, 50));
+        else if(waveNumber < 25) canvas.drawColor(Color.rgb(100, 100, 100));
 
-        canvas.drawColor(Color.BLUE);
+        if(states == States.PLAYING){
+            em.draw(canvas);
+            player.draw(canvas);
 
-        em.draw(canvas);
-        player.draw(canvas);
+            for (Bullet bullet : bullets) {
+                bullet.draw(canvas);
+            }
 
-        for (Bullet bullet : bullets) {
-            bullet.draw(canvas);
-        }
+            for(Particles p : particles){
+                p.draw(canvas);
+            }
 
-        for(Particles p : particles){
-            p.draw(canvas);
-        }
-
-        for(PowerUp pu : powerUp){
-            pu.draw(canvas);
+            for(PowerUp pu : powerUp){
+                pu.draw(canvas);
+            }
         }
 
         ui.draw(canvas);

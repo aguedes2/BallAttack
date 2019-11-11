@@ -13,7 +13,7 @@ public class Enemy implements GameObject{
 
     //FIELDS
     private int color1, color2;
-    private int type, rank, health, frames;
+    private int type, rank, health, frames, points;
     private double x, y, r, dx, dy, rad, speed;
     private double xMin = r, yMin = r, xMax = Constants.SCREEN_WIDTH - r, yMax = Constants.SCREEN_HEIGHT - r;
     private long hitTimer;
@@ -28,6 +28,7 @@ public class Enemy implements GameObject{
         if(type == 1){
             //default enemies variable: radius and speed
             health = 3;
+            points = 10;
             if(rank == 1){
                 color1 = Color.rgb(0, 0,139); //blue
                 color2 = Color.rgb(0, 0, 200); //dark bluewidth = 100;
@@ -56,6 +57,7 @@ public class Enemy implements GameObject{
         else if(type == 2){
             //speed fixed, variable:health and radius
             speed = 20;
+            points = 30;
             if(rank == 1){
                 color1 = Color.rgb(0,128,0); //green
                 color2 = Color.rgb(0,100,0); //dark green
@@ -84,6 +86,7 @@ public class Enemy implements GameObject{
         else if(type == 3){
             //health and speed variables
             r = 60;
+            points = 40;
             if(rank == 1){
                 color1 = Color.rgb(75,0,130);//indigo
                 color2 = Color.rgb(37,0, 75); //purple
@@ -113,6 +116,7 @@ public class Enemy implements GameObject{
             //speed variable
             health = 3;
             r = 50;
+            points = 50;
             if(rank == 1){
                 color1 = Color.rgb(218,165,32); //goldenrod
                 color2 = Color.rgb(184,134,11);// dark goldenrod
@@ -158,6 +162,7 @@ public class Enemy implements GameObject{
         if(health < 0){
             checkPowerUp();
             explode();
+            GamePanel.player.setPoint(points);
             EnemiesManager.enemies.remove(this);
         }
     }
