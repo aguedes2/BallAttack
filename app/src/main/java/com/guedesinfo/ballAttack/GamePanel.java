@@ -10,10 +10,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import androidx.annotation.RequiresApi;
-import com.guedesinfo.ballAttack.engine.Constants;
-import com.guedesinfo.ballAttack.engine.MainThread;
-import com.guedesinfo.ballAttack.engine.States;
-import com.guedesinfo.ballAttack.engine.UI;
+import com.guedesinfo.ballAttack.engine.*;
 import com.guedesinfo.ballAttack.entities.*;
 
 import java.util.ArrayList;
@@ -34,6 +31,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public static Point playerPoint;
     public static EnemiesManager em;
     private UI ui;
+    private Menu menu;
     //Wave Fields
     public static long waveStartTimer;
     public static long waveStartTimerDiff;
@@ -41,7 +39,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public static int waveNumber = 0;
     public static int waveDelay = 3000;
 
-    public static States states = States.PLAYING;
+    public static States states = States.MENU;
 
     //CONSTRUCT
     public GamePanel(Context context){
@@ -59,6 +57,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         bullets = new ArrayList<Bullet>();
         particles = new ArrayList<Particles>();
         powerUp = new ArrayList <PowerUp>();
+        menu = new Menu();
         ui = new UI();
 
         setFocusable(true);
@@ -103,7 +102,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         bullets.clear();
         powerUp.clear();
         waveStartController();
-        states = States.PLAYING;
+        states = States.MENU;
     }
 
     @Override
@@ -115,9 +114,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     @Override
-    public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
-
-    }
+    public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) { }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder){
@@ -139,6 +136,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
+                if(states == States.MENU) states = States.PLAYING;
                 if(states == States.PLAYING){
                     playerPoint.set((int)event.getX(), (int)event.getY());
                     player.setFiring(true);
@@ -155,30 +153,38 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void update(){
+
         waveController();
-        player.setX(playerPoint);
-        player.setY(playerPoint);
 
-        player.update(playerPoint);
-        em.update();
+        if(states == States.MENU){
+            menu.update();
+        }
 
-        for(int i = 0; i < bullets.size(); i++){
-            boolean remove = bullets.get(i).update();
-            if(remove){
-                bullets.remove(i);
-                i--;
+        else if(states == States.PLAYING){
+            player.setX(playerPoint);
+            player.setY(playerPoint);
+
+            player.update(playerPoint);
+            em.update();
+
+            for(int i = 0; i < bullets.size(); i++){
+                boolean remove = bullets.get(i).update();
+                if(remove){
+                    bullets.remove(i);
+                    i--;
+                }
             }
-        }
 
-        for(int i = 0; i < particles.size(); i++){
-            particles.get(i).update();
-        }
+            for(int i = 0; i < particles.size(); i++){
+                particles.get(i).update();
+            }
 
-        for(int i = 0; i < powerUp.size(); i++){
-            boolean remove = powerUp.get(i).update();
-            if(remove){
-                powerUp.remove(i);
-                i--;
+            for(int i = 0; i < powerUp.size(); i++){
+                boolean remove = powerUp.get(i).update();
+                if(remove){
+                    powerUp.remove(i);
+                    i--;
+                }
             }
         }
     }
@@ -210,6 +216,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                 pu.draw(canvas);
             }
         }
+        if(states == States.MENU) menu.draw(canvas);
 
         ui.draw(canvas);
     }
