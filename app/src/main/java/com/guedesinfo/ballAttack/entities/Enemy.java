@@ -31,30 +31,30 @@ public class Enemy implements GameObject{
                 color1 = Color.rgb(0, 0,139); //blue
                 color2 = Color.rgb(0, 0, 200); //dark bluewidth = 100;
                 r = 50;
-                speed = 20;
+                speed = 10;
             }
             if(rank == 2){
                 color1 = Color.rgb(255, 255, 0); //yellow
                 color2 = Color.rgb(85, 107, 47);//dark olive yellow
                 r = 47;
-                speed = 25;
+                speed = 15;
             }
             if(rank == 3){
                 color1 = Color.rgb(255, 192, 203); //pink
                 color2 = Color.rgb(255, 20, 147); //deep pink
                 r = 44;
-                speed = 30;
+                speed = 20;
             }
             if(rank == 4){
                 color1 = Color.rgb(255, 0, 0); //red
                 color2 = Color.rgb(139, 0, 0);//dark red
                 r = 41;
-                speed = 35;
+                speed = 25;
             }
         }
         else if(type == 2){
             //speed fixed, variable:health and radius
-            speed = 30;
+            speed = 20;
             points = 30;
             if(rank == 1){
                 color1 = Color.rgb(0,128,0); //green
@@ -89,25 +89,25 @@ public class Enemy implements GameObject{
                 color1 = Color.rgb(75,0,130);//indigo
                 color2 = Color.rgb(37,0, 75); //purple
                 health = 6;
-                speed = 30;
+                speed = 25;
             }
             if(rank == 2){
                 color1 = Color.rgb(255, 113, 56); //gold
                 color2 = Color.rgb(122, 91, 10); //dark gold rod
                 health = 5;
-                speed = 35;
+                speed = 30;
             }
             if(rank == 3){
                 color1 = Color.rgb(255, 60, 10); //hot pink
                 color2 = Color.rgb(170, 40, 9); //medium violet red
                 health = 4;
-                speed = 40;
+                speed = 33;
             }
             if(rank == 4){
                 color1 = Color.rgb(139,0,0);//dark red
                 color2 = Color.rgb(75,0,0);//brown
                 health = 3;
-                speed = 45;
+                speed = 36;
             }
         }
         else if(type == 4){
@@ -118,22 +118,22 @@ public class Enemy implements GameObject{
             if(rank == 1){
                 color1 = Color.rgb(218,165,32); //goldenrod
                 color2 = Color.rgb(184,134,11);// dark goldenrod
-                speed = 40;
+                speed = 20;
             }
             if(rank == 2){
                 color1 = Color.rgb(250,250,210); //LightGoldenrodYellow
                 color2 = Color.rgb(255,218,185); //PeachPuf
-                speed = 45;
+                speed = 30;
             }
             if(rank == 3){
                 color1 = Color.rgb(160,82,45); //sienna
                 color2 = Color.rgb(139,69,19); //saddleBrown
-                speed = 50;
+                speed = 40;
             }
             if(rank == 4){
                 color1 = Color.rgb(244,164,96); //SandyBrown
                 color1 = Color.rgb(210,105,30); //chocolate
-                speed = 55;
+                speed = 50;
             }
         }
 
