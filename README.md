@@ -27,8 +27,8 @@ The power ups and de lives are aleatory created in the game. Some times are very
 
 ***Type 1***
 
-    ***health = 3;***
-    ***points = 10;***    
+    health = 3;
+    points = 10;    
     
   - Rank 1  
      - color1 = Color.rgb(0, 0,139); //blue     
@@ -58,8 +58,8 @@ The power ups and de lives are aleatory created in the game. Some times are very
 
 ***Type 2***
 
-    ***speed = 20;***
-    ***points = 30;***
+    speed = 20;
+    points = 30;
     
   - Rank 1  
       - color1 = Color.rgb(0,128,0); //green      
@@ -87,8 +87,8 @@ The power ups and de lives are aleatory created in the game. Some times are very
 
 ***Type 3***
 
-    ***r = 40;***
-    ***points = 40;***
+    r = 40;
+    points = 40;
 
   - Rank 1  
       - color1 = Color.rgb(75,0,130);//indigo
@@ -116,8 +116,8 @@ The power ups and de lives are aleatory created in the game. Some times are very
   
 ***Type 4***
 
-    ***health = 3;***
-    ***r = 37;***
+    health = 3;
+    r = 37;
     
   - Rank 1
       - color1 = Color.rgb(218,165,32); //goldenrod
