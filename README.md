@@ -26,6 +26,7 @@ The power ups and de lives are aleatory created in the game. Some times are very
 4 types and 4 ranks
 
 ***Type 1***
+
     ***health = 3;***
     ***points = 10;***    
     
@@ -56,6 +57,7 @@ The power ups and de lives are aleatory created in the game. Some times are very
      - speed = 25;
 
 ***Type 2***
+
     ***speed = 20;***
     ***points = 30;***
     
@@ -84,6 +86,7 @@ The power ups and de lives are aleatory created in the game. Some times are very
       - health = 6;
 
 ***Type 3***
+
     ***r = 40;***
     ***points = 40;***
 
@@ -112,6 +115,7 @@ The power ups and de lives are aleatory created in the game. Some times are very
       - speed = 36;
   
 ***Type 4***
+
     ***health = 3;***
     ***r = 37;***
     
